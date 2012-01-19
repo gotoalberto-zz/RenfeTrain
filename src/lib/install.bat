@@ -1,0 +1,1 @@
+call mvn install:install-file -Dfile=datanucleus-appengine-2.0.0-RC2.jar -DgroupId=com.google.appengine.orm -DartifactId=datanucleus-appengine -Dpackaging=jar -Dversion=2.0.0-RC2
