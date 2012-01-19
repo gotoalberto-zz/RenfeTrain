@@ -33,10 +33,10 @@ public class LlegadaServiceTest extends BaseMockTest{
 	/**
 	 * Este Test testea el servicio de recoleccion de llegadas a una estacion.
 	 * El servicio no devuelve nada, símplemente recupera las llegadas y las persiste
-	 * si es una llegada nueva o actualiza su "hora prevista" si la llegada ya había sido 
+	 * si es una llegada nueva, o actualiza su "hora prevista" si la llegada ya había sido 
 	 * recolectada con anterioridad.
 	 * 
-	 * Para saber si la llegada ya ha sido persistida con anterioridad y debe simplemente actualizarla
+	 * Para saber si la llegada ya ha sido persistida con anterioridad y debe simplemente actualizarla,
 	 * o si debe crearla porque es nueva, se consulta al DAO LlegadaDao pasándole el número de tren
 	 * y la fecha.
 	 * 
@@ -46,12 +46,12 @@ public class LlegadaServiceTest extends BaseMockTest{
 	 * <b>Testeo dos casos:</b>
 	 * Cuando se recupera una llegada de la página de adif, se consulta para ver si ya ha sido 
 	 * persistida y el DAO no devuelve nada, por lo que es nueva y debe persistirse.
-	 * En este caso debe llamarse al método .create del DAO y no al .create.
+	 * En este caso debe llamarse al método .create del DAO y NO al .update.
 	 * 
 	 * Cuando se recupera una llegada de la página de adif, se consulta para ver si ya ha sido 
 	 * persistida y el DAO devuelve una llegada con el mismo numero de tren y fecha,
 	 * por lo que NO es nueva y debe símplemente actualizarse.
-	 * En este caso debe llamarse al método .update del DAO y no al create.
+	 * En este caso debe llamarse al método .update del DAO y NO al create.
 	 * @throws Exception
 	 */
 	@Test
