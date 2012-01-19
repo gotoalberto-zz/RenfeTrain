@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cronentries>
+  <cron>
+    <url>/cron/cron.do</url>
+    <description>Buscar estaciones cada minuto</description>
+    <schedule>every 1 minutes</schedule>
+  </cron>
+</cronentries>

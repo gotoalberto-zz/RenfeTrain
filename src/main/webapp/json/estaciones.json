@@ -1,0 +1,10 @@
+{
+	estacion:[
+	{
+		nombre:'ALCAZAR DE SAN JUAN',
+		id:60400,
+		provincia:'CIUDAD REAL',
+		url:'http://www.adif.es/AdifWeb/estacion_mostrar.jsp?e=60400&t=E'
+	}
+	]
+}
