@@ -17,7 +17,6 @@
 		<gae.version>1.5.5</gae.version>
 		
 		<gae.port>9081</gae.port>
-		<gae.emailAccount>albertogomeztoribio@gmail.com</gae.emailAccount>
 		
 	</properties>
   
@@ -59,7 +58,6 @@
                 <configuration>
                     <unpackVersion>${gae.version}</unpackVersion>
                     <port>${gae.port}</port>
-                    <emailAccount>${gae.emailAccount}</emailAccount>
                 </configuration>
 				<dependencies>
 				
