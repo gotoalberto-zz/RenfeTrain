@@ -36,7 +36,7 @@ Logger log = Logger.getLogger(this.getClass());
 	
 	private static final String CONTROLLER_MAPPING = "/task/comprobarEstacion.do";
 	
-	@RequestMapping(value=CONTROLLER_MAPPING, method=RequestMethod.GET)
+	@RequestMapping(value=CONTROLLER_MAPPING)
 	public ModelAndView comprobarEstacion(
 			HttpServletRequest request,
 			HttpServletResponse response,
