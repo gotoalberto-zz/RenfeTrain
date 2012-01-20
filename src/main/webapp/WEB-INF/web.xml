@@ -48,7 +48,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
  	<security-constraint> 
  	    <web-resource-collection> 
  	    	<web-resource-name>cron</web-resource-name> 
- 	        <url-pattern>/cron/cron.do</url-pattern> 
+ 	        <url-pattern>/cron/*</url-pattern> 
  	    </web-resource-collection> 
  	    <auth-constraint> 
  	        <role-name>admin</role-name> 
@@ -56,9 +56,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
  	</security-constraint> 
 	
  	<security-constraint> 
- 	    <web-resource-collection> 
+ 	    <web-resource-collection>
  	    	<web-resource-name>task</web-resource-name> 
- 	        <url-pattern>/task/comprobarEstacion.do</url-pattern> 
+ 	        <url-pattern>/task/*</url-pattern> 
  	    </web-resource-collection> 
  	    <auth-constraint> 
  	        <role-name>admin</role-name> 
