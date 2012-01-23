@@ -165,6 +165,7 @@
 				 </configuration>
 			</plugin>
 			
+			<!-- Web Resource Optimizer, compilador de JS y CSS -->
 		  	<plugin>
 		    	<groupId>ro.isdc.wro4j</groupId>
 		    	<artifactId>wro4j-maven-plugin</artifactId>
