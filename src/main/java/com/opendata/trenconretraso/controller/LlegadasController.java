@@ -30,7 +30,7 @@ import com.opendata.trenconretraso.service.LlegadaService;
 /**
  * 
  * @author Alberto Gomez Toribio
- *	Controller que devuelve información a la vista.
+ *	Controller que devuelve informaciÃ³n a la vista.
  */
 @Controller
 public class LlegadasController {
@@ -74,7 +74,7 @@ Logger log = Logger.getLogger(this.getClass());
 			item.put("tren", llegada.getNumeroTren());
 			
 			/**Si la hora de llegada prevista (que es la real a la que llega) + 15min
-			 * es superior  o = a la hora de llegada (que es a la que debería llegar)
+			 * es superior  o = a la hora de llegada (que es a la que deberï¿½a llegar)
 			 *
 			 */
 			hLlegada.add(Calendar.MINUTE, 15);

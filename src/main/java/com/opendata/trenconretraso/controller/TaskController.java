@@ -18,8 +18,8 @@ import com.opendata.trenconretraso.service.LlegadaService;
  * 
  * @author Alberto Gomez Toribio
  *	
- *	Controller que actúa de tarea en GAE.
- *	Recibe una estacion como parámetro y llama al servicio que recolecta las llegadas de esa
+ *	Controller que actua de tarea en GAE.
+ *	Recibe una estacion como parametro y llama al servicio que recolecta las llegadas de esa
  *	estacion
  */
 @Controller

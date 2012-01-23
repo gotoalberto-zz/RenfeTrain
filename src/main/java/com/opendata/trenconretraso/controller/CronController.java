@@ -25,9 +25,9 @@ import com.opendata.trenconretraso.dao.LlegadaDao;
  * 
  * @author Alberto Gomez Toribio
  *
- * Controller que GAE utiliza como CRON y que creará tantas tareas como estaciones existan.
- * Cada tarea ejecutará la lógica de recuperar y parsear la información de llegadas de 
- * la estacion recibida como parámetro para persistirla.
+ * Controller que GAE utiliza como CRON y que creara tantas tareas como estaciones existan.
+ * Cada tarea ejecutara la logica de recuperar y parsear la informacion de llegadas de 
+ * la estacion recibida como parametro para persistirla.
  */
 @Controller
 public class CronController {

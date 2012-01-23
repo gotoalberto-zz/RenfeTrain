@@ -115,8 +115,8 @@ public class LlegadaServiceImpl implements LlegadaService {
 				llegadaLastHLlegada.setTime(llegadaLast.gethLlegada());
 			}
 			
-			//El numero de tren se repite cada día, si es el del mismo día actualizo,
-			//si es el de otro día, lo creo
+			//El numero de tren se repite cada dia, si es el del mismo dia actualizo,
+			//si es el de otro dia, lo creo
 			if(llegadaLast != null &&
 					llegadaLastHLlegada.get(Calendar.DAY_OF_MONTH) ==
 					hLlegada.get(Calendar.DAY_OF_MONTH)){
