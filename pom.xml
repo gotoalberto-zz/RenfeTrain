@@ -166,6 +166,7 @@
 			</plugin>
 			
 			<!-- Web Resource Optimizer, compilador de JS y CSS -->
+			
 		  	<plugin>
 		    	<groupId>ro.isdc.wro4j</groupId>
 		    	<artifactId>wro4j-maven-plugin</artifactId>
@@ -195,7 +196,7 @@
 					<dependency>
 						<groupId>com.google.javascript</groupId>
 						<artifactId>closure-compiler</artifactId>
-						<version>r706</version>
+						<version>r1592</version>
 					</dependency>
 				</dependencies>
 		  	</plugin>
