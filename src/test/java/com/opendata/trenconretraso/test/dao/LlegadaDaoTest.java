@@ -99,6 +99,8 @@ public class LlegadaDaoTest extends BaseSpringTest{
 	@NotPersistent
 	public void findLastByTren(){
 		
+		Calendar date = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
+		
 		Estacion estacion = new Estacion();
 		estacion.setCodigo("60400");
 		estacion.setNombre("ALCAZAR DE SAN JUAN");
@@ -108,14 +110,22 @@ public class LlegadaDaoTest extends BaseSpringTest{
 		
 		Llegada llegada = new Llegada();
 		llegada.setIdEstacion(estacion.getId());
-		llegada.sethLlegada(new Date());
-		llegada.sethPrevista(new Date());
+		llegada.sethLlegada(date.getTime());
+		llegada.sethPrevista(date.getTime());
 		llegada.setNumeroTren("17000");
-		
 		llegada = llegadaDao.create(llegada);
+		
+		date.add(Calendar.MINUTE, 1);
+		
+		Llegada llegada2 = new Llegada();
+		llegada2.setIdEstacion(estacion.getId());
+		llegada2.sethLlegada(date.getTime());
+		llegada2.sethPrevista(date.getTime());
+		llegada2.setNumeroTren("18000");
+		llegada2 = llegadaDao.create(llegada2);
 		
 		Llegada llegadaFound = llegadaDao.findLastByTren(estacion.getId(), llegada.getNumeroTren());
 		
-		Assert.assertTrue(llegadaFound.getNumeroTren().equals("17000"));
+		Assert.assertTrue(llegadaFound.getNumeroTren().equals("18000"));
 	}
 }
