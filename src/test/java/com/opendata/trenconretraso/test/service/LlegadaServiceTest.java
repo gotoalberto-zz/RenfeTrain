@@ -32,26 +32,26 @@ public class LlegadaServiceTest extends BaseMockTest{
 	
 	/**
 	 * Este Test testea el servicio de recoleccion de llegadas a una estacion.
-	 * El servicio no devuelve nada, símplemente recupera las llegadas y las persiste
-	 * si es una llegada nueva, o actualiza su "hora prevista" si la llegada ya había sido 
+	 * El servicio no devuelve nada, sï¿½mplemente recupera las llegadas y las persiste
+	 * si es una llegada nueva, o actualiza su "hora prevista" si la llegada ya habï¿½a sido 
 	 * recolectada con anterioridad.
 	 * 
 	 * Para saber si la llegada ya ha sido persistida con anterioridad y debe simplemente actualizarla,
-	 * o si debe crearla porque es nueva, se consulta al DAO LlegadaDao pasándole el número de tren
+	 * o si debe crearla porque es nueva, se consulta al DAO LlegadaDao pasï¿½ndole el nï¿½mero de tren
 	 * y la fecha.
 	 * 
-	 * Una llegada se identifica por la fecha y el número de tren, ya que los números de trenes 
-	 * se repiten cada día.
+	 * Una llegada se identifica por la fecha y el nï¿½mero de tren, ya que los nï¿½meros de trenes 
+	 * se repiten cada dï¿½a.
 	 * 
 	 * <b>Testeo dos casos:</b>
-	 * Cuando se recupera una llegada de la página de adif, se consulta para ver si ya ha sido 
+	 * Cuando se recupera una llegada de la pï¿½gina de adif, se consulta para ver si ya ha sido 
 	 * persistida y el DAO no devuelve nada, por lo que es nueva y debe persistirse.
-	 * En este caso debe llamarse al método .create del DAO y NO al .update.
+	 * En este caso debe llamarse al mï¿½todo .create del DAO y NO al .update.
 	 * 
-	 * Cuando se recupera una llegada de la página de adif, se consulta para ver si ya ha sido 
+	 * Cuando se recupera una llegada de la pï¿½gina de adif, se consulta para ver si ya ha sido 
 	 * persistida y el DAO devuelve una llegada con el mismo numero de tren y fecha,
-	 * por lo que NO es nueva y debe símplemente actualizarse.
-	 * En este caso debe llamarse al método .update del DAO y NO al create.
+	 * por lo que NO es nueva y debe sï¿½mplemente actualizarse.
+	 * En este caso debe llamarse al mï¿½todo .update del DAO y NO al create.
 	 * @throws Exception
 	 */
 	@Test

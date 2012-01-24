@@ -20,6 +20,12 @@ public class EstacionServiceImpl implements EstacionService{
 	@Autowired
 	EstacionDao estacionDao;
 
+	public EstacionServiceImpl(){};
+	
+	public EstacionServiceImpl(EstacionDao estacionDao){
+		this.estacionDao = estacionDao;
+	}
+	
 	public Estacion findById(Long id) {
 		return estacionDao.findById(id);
 	}
