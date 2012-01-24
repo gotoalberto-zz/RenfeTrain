@@ -108,7 +108,7 @@ public class LlegadaServiceImpl implements LlegadaService {
 			llegada.sethPrevista(hPrevista.getTime());
 			
 			//Buscamos la ultima llegada
-			Llegada llegadaLast = llegadaDao.findLastByTren(estacion.getId(), llegada.getNumeroTren());
+			Llegada llegadaLast = this.findLastByTren(estacion.getId(), llegada.getNumeroTren());
 			
 			Calendar llegadaLastHLlegada = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
 			if(llegadaLast!= null){
@@ -123,10 +123,10 @@ public class LlegadaServiceImpl implements LlegadaService {
 				llegadaLast.sethPrevista(llegada.gethPrevista());
 				
 				llegadaLast.sethPrevista(llegada.gethPrevista());
-				llegadaDao.update(llegadaLast);
+				this.update(llegadaLast);
 			}
 			else{
-				llegadaDao.create(llegada);
+				this.create(llegada);
 			}
 		}
 		
@@ -158,7 +158,7 @@ public class LlegadaServiceImpl implements LlegadaService {
 		hastac.set(Calendar.SECOND,59);
 		hastac.set(Calendar.MILLISECOND,0);
 		
-		return llegadaDao.findByEstacion(idEstacion,desdec.getTime(),hastac.getTime());
+		return this.findByEstacion(idEstacion,desdec.getTime(),hastac.getTime());
 	}
 
 	@Override
@@ -174,6 +174,16 @@ public class LlegadaServiceImpl implements LlegadaService {
 	@Override
 	public Llegada update(Llegada llegada) {
 		return llegadaDao.update(llegada);
+	}
+
+	@Override
+	public Llegada findLastByTren(Long idEstacion, String numeroTren) {
+		return llegadaDao.findLastByTren(idEstacion, numeroTren);
+	}
+
+	@Override
+	public List<Llegada> findByEstacion(Long idEstacion, Date desde, Date hasta) {
+		return llegadaDao.findByEstacion(idEstacion, desde, hasta);
 	}
 
 }
