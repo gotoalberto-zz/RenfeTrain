@@ -89,6 +89,20 @@ public class LlegadaServiceImpl implements LlegadaService {
 			hLlegada.set(Calendar.HOUR_OF_DAY,hLlegadaAux.get(Calendar.HOUR_OF_DAY));
 			hLlegada.set(Calendar.MINUTE,hLlegadaAux.get(Calendar.MINUTE));
 			
+			/**
+			 * Si cuando se ejecuta esta lógica son las 23:30 y en la página de ADIF estoy 
+			 * leyendo una llegada próxima con hora de llegada a las 00:30, esa llegada es 
+			 * del día siguiente, por lo que debo de sumarle 1 al día
+			 * 
+			 * Estoy suponiendo que en la pagina de ADIF no se muestran llegadas cuya hora
+			 * oficial de llegada es 1 hora atrás de la hora actual.
+			 * Es decir, estoy suponiendo que las llegadas se borran conforme llegan los trenes,
+			 * o al menos en la siguiente hora a la llegada del tren.
+			 */
+			if(hLlegada.get(Calendar.HOUR_OF_DAY) < now.get(Calendar.HOUR_OF_DAY)){
+				hLlegada.add(Calendar.DATE, 1);
+			}
+			
 			llegada.sethLlegada(hLlegada.getTime());
 			
 			//recojo la hora
