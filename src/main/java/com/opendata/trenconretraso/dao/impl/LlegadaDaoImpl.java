@@ -78,20 +78,22 @@ public class LlegadaDaoImpl extends JdoDaoSupport implements LlegadaDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public Llegada findLastByTren(Long idEstacion, String numeroTren) {
+	public Llegada findLastByTren(Long idEstacion, Long numeroTren) {
 		try{
 			Query query = getPersistenceManager().newQuery(Llegada.class);
 			query.setFilter(
 					" numeroTren == numeroTrenParam &&" + 
 					" idEstacion == idEstacionParam");
 			
-			query.declareParameters("java.lang.String numeroTrenParam," +
+			query.declareParameters("java.lang.Long numeroTrenParam," +
 					"java.lang.Long idEstacionParam");
 			
 			query.setOrdering("hPrevista desc");
+			
 			query.setRange(0, 1);
 			
 			List<Llegada> llegadas = (List<Llegada>) query.executeWithArray(numeroTren,idEstacion);
+			
 			return llegadas.get(0);
 			
 		}catch(Exception e){

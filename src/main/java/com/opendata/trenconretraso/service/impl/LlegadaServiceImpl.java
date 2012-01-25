@@ -72,7 +72,7 @@ public class LlegadaServiceImpl implements LlegadaService {
 			
 			llegada.setIdEstacion(estacion.getId());
 			llegada.setProcedencia(row.getCell(1).getTextContent().trim());
-			llegada.setNumeroTren(row.getCell(4).getTextContent());
+			llegada.setNumeroTren(Long.parseLong(row.getCell(4).getTextContent().trim()));
 			
 			//Recojo la hora
 			Date hLlegadaDate = sdf.parse(row.getCell(0).getTextContent());
@@ -177,7 +177,7 @@ public class LlegadaServiceImpl implements LlegadaService {
 	}
 
 	@Override
-	public Llegada findLastByTren(Long idEstacion, String numeroTren) {
+	public Llegada findLastByTren(Long idEstacion, Long numeroTren) {
 		return llegadaDao.findLastByTren(idEstacion, numeroTren);
 	}
 

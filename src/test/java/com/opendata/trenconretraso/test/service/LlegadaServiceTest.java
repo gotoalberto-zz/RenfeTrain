@@ -81,7 +81,7 @@ public class LlegadaServiceTest extends BaseMockTest{
 		
 		Llegada llegadaFound = new Llegada();
 		llegadaFound.sethLlegada(new Date());
-		when(llegadaDaoMock.findLastByTren(any(Long.class), any(String.class))).thenReturn(llegadaFound);
+		when(llegadaDaoMock.findLastByTren(any(Long.class), any(Long.class))).thenReturn(llegadaFound);
 		
 		llegadaService.recolectarLlegadasDeEstacion(estacion);
 		

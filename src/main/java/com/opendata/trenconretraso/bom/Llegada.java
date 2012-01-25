@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -31,7 +32,7 @@ public class Llegada implements Serializable{
 	private java.util.Date hPrevista;
 	
 	@Persistent
-	private java.lang.String numeroTren;
+	private java.lang.Long numeroTren;
 	
 	@Persistent
 	private java.lang.Long idEstacion;
@@ -63,11 +64,11 @@ public class Llegada implements Serializable{
 		this.id = id;
 	}
 
-	public java.lang.String getNumeroTren() {
+	public java.lang.Long getNumeroTren() {
 		return numeroTren;
 	}
 
-	public void setNumeroTren(java.lang.String numeroTren) {
+	public void setNumeroTren(java.lang.Long numeroTren) {
 		this.numeroTren = numeroTren;
 	}
 

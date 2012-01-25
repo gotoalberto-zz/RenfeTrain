@@ -44,7 +44,7 @@ public class LlegadaDaoTest extends BaseSpringTest{
 		llegada.setIdEstacion(estacion.getId());
 		llegada.sethLlegada(new Date());
 		llegada.sethPrevista(new Date());
-		llegada.setNumeroTren("17000");
+		llegada.setNumeroTren(17000L);
 		
 		llegadaDao.create(llegada);
 		
@@ -86,7 +86,7 @@ public class LlegadaDaoTest extends BaseSpringTest{
 		llegada.setIdEstacion(estacion.getId());
 		llegada.sethLlegada(new Date());
 		llegada.sethPrevista(new Date());
-		llegada.setNumeroTren("17000");
+		llegada.setNumeroTren(17000L);
 		
 		llegada = llegadaDao.create(llegada);
 		
@@ -112,20 +112,20 @@ public class LlegadaDaoTest extends BaseSpringTest{
 		llegada.setIdEstacion(estacion.getId());
 		llegada.sethLlegada(date.getTime());
 		llegada.sethPrevista(date.getTime());
-		llegada.setNumeroTren("17000");
+		llegada.setNumeroTren(17000L);
 		llegada = llegadaDao.create(llegada);
 		
-		date.add(Calendar.MINUTE, 1);
+		date.add(Calendar.SECOND, 1);
 		
 		Llegada llegada2 = new Llegada();
 		llegada2.setIdEstacion(estacion.getId());
 		llegada2.sethLlegada(date.getTime());
 		llegada2.sethPrevista(date.getTime());
-		llegada2.setNumeroTren("18000");
+		llegada2.setNumeroTren(17000L);
 		llegada2 = llegadaDao.create(llegada2);
 		
 		Llegada llegadaFound = llegadaDao.findLastByTren(estacion.getId(), llegada.getNumeroTren());
 		
-		Assert.assertTrue(llegadaFound.getNumeroTren().equals("18000"));
+		Assert.assertTrue(llegadaFound.getId() == llegada2.getId());
 	}
 }

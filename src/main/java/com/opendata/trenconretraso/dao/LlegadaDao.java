@@ -20,7 +20,7 @@ public interface LlegadaDao {
 	
 	public List<Llegada> findAll();
 
-	public Llegada findLastByTren(Long idEstacion, String numeroTren);
+	public Llegada findLastByTren(Long idEstacion, Long numeroTren);
 	
 	public Llegada update(Llegada llegada);
 }
