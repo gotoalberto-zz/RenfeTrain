@@ -30,15 +30,19 @@ public class Load implements ApplicationListener<org.springframework.context.eve
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
+		
+		cargarEstaciones();
+		
+	}
+	
+	private void cargarEstaciones(){
 		ClassPathResource estacionesResource = new ClassPathResource(estacionesFile);
-		log.debug("CARGANDO EL CONTEXTO");
 		try{
 			InputStreamReader ir = new InputStreamReader(estacionesResource.getInputStream());
 			CSVReader reader = new CSVReader(ir,';');
 			
 			String[] aux;
 			while ((aux = reader.readNext())!=null){
-				log.debug("insertando estacion... " + aux[1]);
 				if(estacionService.findByCodEstacion("60400") == null){
 					Estacion estacion = new Estacion();
 					estacion.setCodigo(aux[0]);
