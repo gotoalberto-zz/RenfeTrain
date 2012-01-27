@@ -19,7 +19,7 @@ Ext.define('consulta.store.estaciones',{
 	model: 'consulta.model.estaciones',
 	proxy: {
 		type: 'ajax',
-		url: 'json/estaciones.json',
+		url: 'estaciones.do',
 		reader: {
 			type: 'json',
 			root: 'estacion',

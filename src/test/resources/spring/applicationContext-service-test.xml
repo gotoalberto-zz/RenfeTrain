@@ -12,5 +12,5 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<beans:bean id="estacionService" class="com.opendata.trenconretraso.service.impl.EstacionServiceImpl"/>
 	<beans:bean id="llegadaService" class="com.opendata.trenconretraso.service.impl.LlegadaServiceImpl"/>
-	
+	<beans:bean id="tipoTrenService" class="com.opendata.trenconretraso.service.impl.TipoTrenServiceImpl"/>
 </beans>

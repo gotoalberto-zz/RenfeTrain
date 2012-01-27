@@ -30,7 +30,6 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	        <prop key="javax.jdo.option.NontransactionalWrite">true</prop>
 	        <prop key="javax.jdo.option.RetainValues">true</prop>
 	        <prop key="datanucleus.appengine.autoCreateDatastoreTxns">true</prop>
-	        <prop key="datanucleus.cache.collections.lazy">true</prop>
         </props>
       </property>
 
@@ -44,6 +43,8 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 		<property name="persistenceManagerFactory" ref="persistenceManagerFactory" />
 	</beans:bean>
 		
-	
+	<beans:bean id="tipoTrenDao" class="com.opendata.trenconretraso.dao.impl.TipoTrenDaoImpl">
+		<property name="persistenceManagerFactory" ref="persistenceManagerFactory" />
+	</beans:bean>
 	
 </beans>

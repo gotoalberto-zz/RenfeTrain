@@ -1,6 +1,5 @@
 package com.opendata.trenconretraso.bom;
 
-import java.io.Serializable;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -14,7 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
  *	Modelo que representa las estaciones
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Estacion implements Serializable{
+public class Estacion{
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +22,7 @@ public class Estacion implements Serializable{
 	private java.lang.Long id;
 	
 	@Persistent
-	private java.lang.String codigo;
+	private java.lang.Long codigo;
 	
 	@Persistent
 	private java.lang.String nombre;
@@ -39,11 +38,11 @@ public class Estacion implements Serializable{
 		this.id = id;
 	}
 
-	public java.lang.String getCodigo() {
+	public java.lang.Long getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(java.lang.String codigo) {
+	public void setCodigo(java.lang.Long codigo) {
 		this.codigo = codigo;
 	}
 

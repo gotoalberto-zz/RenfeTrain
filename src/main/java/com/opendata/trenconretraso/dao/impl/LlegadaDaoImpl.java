@@ -31,17 +31,6 @@ public class LlegadaDaoImpl extends JdoDaoSupport implements LlegadaDao{
 		setPersistenceManagerFactory(pmf);
     }
 	
-	@Transactional
-	public Llegada findById(Long id) {
-		try{
-			
-			return getPersistenceManager().getObjectById(Llegada.class, id);
-			
-		}catch(Exception e){
-			log.debug(e.getMessage());
-			return null;
-		}
-	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -49,13 +38,13 @@ public class LlegadaDaoImpl extends JdoDaoSupport implements LlegadaDao{
 		try{
 			
 			Query query = getPersistenceManager().newQuery(Llegada.class);
-			query.setFilter("idEstacion == idParam && hLlegada <= hastaP && hLlegada >= desdeP");
-			query.declareParameters("java.lang.Long idParam, java.util.Date desdeP, java.util.Date hastaP");
+			query.setFilter("idEstacion == idEstacionParam && hLlegada <= hastaP && hLlegada >= desdeP");
+			query.declareParameters("java.lang.Long idEstacionParam, java.util.Date desdeP, java.util.Date hastaP");
 			List<Llegada> llegadas = (List<Llegada>) query.executeWithArray(idEstacion,desde,hasta);
 			return llegadas;
 			
 		}catch(Exception e){
-			log.debug("###" + e.getMessage());
+			log.debug(e.getMessage());
 			return null;
 		}
 	}
@@ -78,15 +67,15 @@ public class LlegadaDaoImpl extends JdoDaoSupport implements LlegadaDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public Llegada findLastByTren(Long idEstacion, Long numeroTren) {
+	public Llegada findUltimaLlegadaDeTrenAEstacion(Long idEstacion, Long numeroTren) {
 		try{
 			Query query = getPersistenceManager().newQuery(Llegada.class);
 			query.setFilter(
 					" numeroTren == numeroTrenParam &&" + 
-					" idEstacion == idEstacionParam");
+					" idEstacion == estacionIdParam");
 			
 			query.declareParameters("java.lang.Long numeroTrenParam," +
-					"java.lang.Long idEstacionParam");
+					"java.lang.Long estacionIdParam");
 			
 			query.setOrdering("hPrevista desc");
 			
@@ -113,7 +102,46 @@ public class LlegadaDaoImpl extends JdoDaoSupport implements LlegadaDao{
 			llegadaFound.setIdEstacion(llegada.getIdEstacion());
 			llegadaFound.setNumeroTren(llegada.getNumeroTren());
 			llegadaFound.setProcedencia(llegada.getProcedencia());
+			llegadaFound.setTipoTren(llegada.getTipoTren());
+			llegadaFound.setIdTipoTren(llegada.getTipoTren().getId().getId());
 			return llegadaFound;
+			
+		}catch(Exception e){
+			log.debug(e.getMessage());
+			return null;
+		}
+	}
+
+
+	@Override
+	@Transactional
+	public Llegada findById(Long id) {
+		try{
+			
+			return getPersistenceManager().getObjectById(Llegada.class, id);
+			
+		}catch(Exception e){
+			
+			log.debug(e.getMessage());
+			return null;
+		}
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Llegada> findByTipoTren(Long idTipoTren) {
+		try{
+			Query query = getPersistenceManager().newQuery(Llegada.class);
+			query.setFilter("idTipoTren == idTipoTrenParam");
+			
+			query.declareParameters(
+					"java.lang.Long idTipoTrenParam");
+			
+			List<Llegada> llegadas = (List<Llegada>) query.executeWithArray(idTipoTren);
+			
+			return llegadas;
 			
 		}catch(Exception e){
 			log.debug(e.getMessage());

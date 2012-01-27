@@ -42,4 +42,8 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 		<property name="persistenceManagerFactory" ref="persistenceManagerFactory" />
 	</beans:bean>
 	
+	<beans:bean id="tipoTrenDao" class="com.opendata.trenconretraso.dao.impl.TipoTrenDaoImpl">
+		<property name="persistenceManagerFactory" ref="persistenceManagerFactory" />
+	</beans:bean>
+	
 </beans>

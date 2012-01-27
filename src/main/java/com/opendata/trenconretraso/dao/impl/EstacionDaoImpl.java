@@ -60,13 +60,13 @@ public class EstacionDaoImpl extends JdoDaoSupport implements EstacionDao{
 
 	@Override
 	@Transactional
-	public Estacion findByCodEstacion(String codEstacion) {
+	public Estacion findByCodEstacion(Long codEstacion) {
 		try{
 			
 			Query query = getPersistenceManager().newQuery(Estacion.class);
 			query.setFilter("codigo == codParam");
 			query.setUnique(true);
-			query.declareParameters("java.lang.String codParam");
+			query.declareParameters("java.lang.Long codParam");
 			Estacion estacion = (Estacion) query.executeWithArray(codEstacion);
 			return estacion;
 			

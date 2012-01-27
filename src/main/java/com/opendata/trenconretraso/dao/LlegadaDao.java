@@ -11,16 +11,18 @@ import com.opendata.trenconretraso.bom.Llegada;
  *
  */
 public interface LlegadaDao {
-	
-	public Llegada findById(Long id);
-	
+
 	public List<Llegada> findByEstacion(Long idEstacion, Date desde, Date hasta);
 	
 	public Llegada create(Llegada llegada);
 	
 	public List<Llegada> findAll();
 
-	public Llegada findLastByTren(Long idEstacion, Long numeroTren);
+	public Llegada findUltimaLlegadaDeTrenAEstacion(Long idEstacion, Long numeroTren);
 	
 	public Llegada update(Llegada llegada);
+	
+	public Llegada findById(Long id);
+	
+	public List<Llegada> findByTipoTren(Long idTipoTren);
 }

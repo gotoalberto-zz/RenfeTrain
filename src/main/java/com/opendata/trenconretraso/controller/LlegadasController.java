@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,19 +34,20 @@ public class LlegadasController {
 	
 Logger log = Logger.getLogger(this.getClass());
 	
-	@Autowired
+	@Autowired 
 	EstacionService estacionService;
 	@Autowired
 	LlegadaService llegadaService;
 	
 	private static final String CONTROLLER_LLEGADAS = "/llegadas.do";
+	private static final String CONTROLLER_ESTACIONES = "/estaciones.do";
 	
 	@RequestMapping(value=CONTROLLER_LLEGADAS, method=RequestMethod.GET)
-	public ModelAndView estacion(
-		HttpServletRequest request,
-		HttpServletResponse response,
-		@RequestParam("estacion") String codEstacion,
-		@RequestParam("fecha") String fecha) throws ParseException {
+	public ModelAndView llegadas(
+		@RequestParam(value="estacion", required=true) Long codEstacion,
+		@RequestParam(value="fecha", required=true) String fecha)
+	
+	throws ParseException {
 		
 		Date fechaConsulta = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
 		
@@ -84,6 +82,30 @@ Logger log = Logger.getLogger(this.getClass());
 			else{
 				item.put("indemnizacion", false);
 			}
+			
+			items.add(item);
+		}
+		
+		ModelAndView mvc = new ModelAndView("json");
+		
+		mvc.addObject("items", items);
+		mvc.addObject("success",true);
+		
+		return mvc;
+	}
+	
+	@RequestMapping(value=CONTROLLER_ESTACIONES, method=RequestMethod.GET)
+	public ModelAndView estaciones()throws ParseException {
+		
+		List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
+		
+		List<Estacion> estaciones = estacionService.findAll();		
+		for(Estacion estacion : estaciones){
+			
+			Map<String,Object> item = new HashMap<String, Object>();
+			
+			item.put("id", estacion.getId());
+			item.put("nombre", estacion.getNombre());
 			
 			items.add(item);
 		}

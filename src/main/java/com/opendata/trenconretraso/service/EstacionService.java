@@ -17,6 +17,6 @@ public interface EstacionService {
 	
 	public List<Estacion> findAll();
 	
-	public Estacion findByCodEstacion(String codEstacion);
+	public Estacion findByCodEstacion(Long codEstacion);
 	
 }

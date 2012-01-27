@@ -25,7 +25,7 @@ public interface LlegadaService {
 	
 	public Llegada update(Llegada llegada);
 	
-	public Llegada findLastByTren(Long idEstacion, Long numeroTren);
+	public Llegada findUltimaLlegadaDeTrenAEstacion(Long idEstacion, Long numeroTren);
 	
 	public List<Llegada> findByEstacion(Long idEstacion, Date desde, Date hasta);
 

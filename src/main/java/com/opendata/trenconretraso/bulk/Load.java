@@ -43,9 +43,9 @@ public class Load implements ApplicationListener<org.springframework.context.eve
 			
 			String[] aux;
 			while ((aux = reader.readNext())!=null){
-				if(estacionService.findByCodEstacion("60400") == null){
+				if(estacionService.findByCodEstacion(60400L) == null){
 					Estacion estacion = new Estacion();
-					estacion.setCodigo(aux[0]);
+					estacion.setCodigo(Long.parseLong(aux[0]));
 					estacion.setNombre(aux[1]);
 					estacion.setURL(aux[2]);
 					estacionService.create(estacion);

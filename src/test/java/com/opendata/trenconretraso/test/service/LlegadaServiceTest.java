@@ -8,10 +8,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import com.opendata.trenconretraso.bom.Estacion;
+import com.opendata.trenconretraso.bom.Indemnizacion;
 import com.opendata.trenconretraso.bom.Llegada;
+import com.opendata.trenconretraso.bom.TipoTren;
 import com.opendata.trenconretraso.dao.LlegadaDao;
 import com.opendata.trenconretraso.service.EstacionService;
 import com.opendata.trenconretraso.service.LlegadaService;
+import com.opendata.trenconretraso.service.TipoTrenService;
 import com.opendata.trenconretraso.service.impl.LlegadaServiceImpl;
 import com.opendata.trenconretraso.test.BaseMockTest;
 
@@ -29,6 +32,8 @@ public class LlegadaServiceTest extends BaseMockTest{
 	EstacionService estacionServiceMock;
 	@Mock
 	LlegadaDao llegadaDaoMock;
+	@Mock
+	TipoTrenService tipoTrenService;
 	
 	/**
 	 * Este Test testea el servicio de recoleccion de llegadas a una estacion.
@@ -57,36 +62,54 @@ public class LlegadaServiceTest extends BaseMockTest{
 	@Test
 	public void recolectarLlegadasDeEstacionTest() throws Exception{
 
+		TipoTren tipoTren = new TipoTren();
+		tipoTren.setNombreADIF("MD");
+		
+		List<Indemnizacion> indemnizaciones = new ArrayList<Indemnizacion>();
+		Indemnizacion indemnizacion = new Indemnizacion();
+		indemnizacion.setMinutosRetraso(60L);
+		indemnizacion.setPorcentaje(15);
+		indemnizaciones.add(indemnizacion);
+		tipoTren.setIndemnizaciones(indemnizaciones);
 		
 		Estacion estacion = new Estacion();
 		estacion.setId(1L);
-		estacion.setCodigo("60400");
+		estacion.setCodigo(60400L);
 		estacion.setNombre("ALCAZAR DE SAN JUAN");
 		estacion.setURL("http://www.adif.es/AdifWeb/estacion_mostrar.jsp?e=60400&t=E");
 		
 		List<Estacion> estaciones = new ArrayList<Estacion>();
 		estaciones.add(estacion);
 		
+		/**
+		 * Testeo que funciona la creación de llegadas y la creación de tipos de tren
+		 */
 		when(estacionServiceMock.findAll()).thenReturn(estaciones);
+		when(tipoTrenService.findByNombreADIF(any(String.class))).thenReturn(null);
 		
 		LlegadaService llegadaService = 
-			new LlegadaServiceImpl(estacionServiceMock,llegadaDaoMock);
+			new LlegadaServiceImpl(estacionServiceMock,llegadaDaoMock, tipoTrenService);
 		
 		llegadaService.recolectarLlegadasDeEstacion(estacion);
 		
+		verify(tipoTrenService, atLeastOnce()).create(any(TipoTren.class));
 		verify(llegadaDaoMock, atLeastOnce()).create(any(Llegada.class));
 		verify(llegadaDaoMock, times(0)).update(any(Llegada.class));
 		
+		/**
+		 * Testeo que funciona la actualizacion de llegadas
+		 */
 		reset(llegadaDaoMock);
 		
 		Llegada llegadaFound = new Llegada();
 		llegadaFound.sethLlegada(new Date());
-		when(llegadaDaoMock.findLastByTren(any(Long.class), any(Long.class))).thenReturn(llegadaFound);
+		when(llegadaDaoMock.findUltimaLlegadaDeTrenAEstacion(any(Long.class), any(Long.class))).thenReturn(llegadaFound);
 		
 		llegadaService.recolectarLlegadasDeEstacion(estacion);
 		
+		
 		verify(llegadaDaoMock, times(0)).create(any(Llegada.class));
 		verify(llegadaDaoMock, atLeastOnce()).update(any(Llegada.class));
+		
 	}
-	
 }

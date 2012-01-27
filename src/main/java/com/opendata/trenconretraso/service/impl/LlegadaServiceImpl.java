@@ -1,6 +1,7 @@
 package com.opendata.trenconretraso.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +17,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.opendata.trenconretraso.bom.Estacion;
+import com.opendata.trenconretraso.bom.Indemnizacion;
 import com.opendata.trenconretraso.bom.Llegada;
+import com.opendata.trenconretraso.bom.TipoTren;
 import com.opendata.trenconretraso.dao.LlegadaDao;
 import com.opendata.trenconretraso.service.EstacionService;
 import com.opendata.trenconretraso.service.LlegadaService;
+import com.opendata.trenconretraso.service.TipoTrenService;
 
 import static com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_3_6;
 
@@ -38,12 +42,17 @@ public class LlegadaServiceImpl implements LlegadaService {
 	EstacionService estacionService;
 	@Autowired
 	LlegadaDao llegadaDao;
+	@Autowired
+	TipoTrenService tipoTrenService;
 	
 	public LlegadaServiceImpl(){}
 	
-	public LlegadaServiceImpl(EstacionService estacionService, LlegadaDao llegadaDao){
+	public LlegadaServiceImpl(EstacionService estacionService, 
+			LlegadaDao llegadaDao,
+			TipoTrenService tipoTrenService){
 		this.estacionService = estacionService;
 		this.llegadaDao = llegadaDao;
+		this.tipoTrenService = tipoTrenService;
 	}
 	
 	public void recolectarLlegadasDeEstacion(Estacion estacion) throws Exception {
@@ -74,7 +83,27 @@ public class LlegadaServiceImpl implements LlegadaService {
 			llegada.setProcedencia(row.getCell(1).getTextContent().trim());
 			llegada.setNumeroTren(Long.parseLong(row.getCell(4).getTextContent().trim()));
 			
-			//Recojo la hora
+			TipoTren tipoTren = tipoTrenService.findByNombreADIF(row.getCell(1).getTextContent().trim());
+			
+			//Si no existe el tipo de tren lo creo
+			if(tipoTren == null){
+				List<Indemnizacion> indemnizaciones = new ArrayList<Indemnizacion>();
+				
+				tipoTren = new TipoTren();
+				tipoTren.setNombreADIF(row.getCell(1).getTextContent().trim());
+				tipoTren.setIndemnizaciones(indemnizaciones);
+				
+				tipoTren = tipoTrenService.create(tipoTren);
+				
+				log.error("¡He detectado un tipo de tren nuevo! Echale un ojo para ver que" +
+						"tipo de indemnización le corresponde y actualízalo! -> \n" +
+						"tipoTren.nombreADIF = " + tipoTren.getNombreADIF() +
+						"\n tipoTren.id = " + tipoTren.getId());
+			}
+			
+			llegada.setTipoTren(tipoTren);
+			
+			//Recojo la hora a la que está programado que el tren llegue a la estación
 			Date hLlegadaDate = sdf.parse(row.getCell(0).getTextContent());
 			Calendar hLlegadaAux = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
 			hLlegadaAux.setTime(hLlegadaDate);
@@ -105,7 +134,7 @@ public class LlegadaServiceImpl implements LlegadaService {
 			
 			llegada.sethLlegada(hLlegada.getTime());
 			
-			//recojo la hora
+			//recojo la hora real que ADIF indica como hora de llegada a la estación
 			Date hPrevistaDate = sdf.parse(row.getCell(2).getTextContent());
 			Calendar hPrevistaAux = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
 			hPrevistaAux.setTime(hPrevistaDate);
@@ -121,8 +150,29 @@ public class LlegadaServiceImpl implements LlegadaService {
 			
 			llegada.sethPrevista(hPrevista.getTime());
 			
+			/**
+			 * Compruebo si le corresponde indemnización
+			 */
+			llegada.setIndemnizacion(0);
+				
+			Long diferenciaEnMin = 
+				llegada.gethPrevista().getTime() - llegada.gethLlegada().getTime()
+				/ 1000 / 60;
+				
+			//Asigno la mayor indemnizacion posible
+			for(Indemnizacion indemnizacion : llegada.getTipoTren().getIndemnizaciones()){
+				
+				if(diferenciaEnMin >= indemnizacion.getMinutosRetraso()
+						&& indemnizacion.getPorcentaje() > llegada.getIndemnizacion()){
+					
+					llegada.setIndemnizacion(indemnizacion.getPorcentaje());
+					
+				}
+				
+			}
+			
 			//Buscamos la ultima llegada
-			Llegada llegadaLast = this.findLastByTren(estacion.getId(), llegada.getNumeroTren());
+			Llegada llegadaLast = this.findUltimaLlegadaDeTrenAEstacion(estacion.getId(), llegada.getNumeroTren());
 			
 			Calendar llegadaLastHLlegada = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
 			if(llegadaLast!= null){
@@ -130,24 +180,23 @@ public class LlegadaServiceImpl implements LlegadaService {
 			}
 			
 			//El numero de tren se repite cada dia, si es el del mismo dia actualizo,
-			//si es el de otro dia, lo creo
+			//si es el de otro dia nos referimos a una llegada distinta, por tanto la creo
 			if(llegadaLast != null &&
 					llegadaLastHLlegada.get(Calendar.DAY_OF_MONTH) ==
 					hLlegada.get(Calendar.DAY_OF_MONTH)){
-				llegadaLast.sethPrevista(llegada.gethPrevista());
 				
 				llegadaLast.sethPrevista(llegada.gethPrevista());
+				llegadaLast.sethPrevista(llegada.gethPrevista());
 				this.update(llegadaLast);
+				
 			}
 			else{
+				
 				this.create(llegada);
+				
 			}
 		}
 		
-	}
-
-	public Llegada findById(Long id) {
-		return llegadaDao.findById(id);
 	}
 
 	public List<Llegada> findByEstacion(Long idEstacion, Date dia) {
@@ -176,6 +225,11 @@ public class LlegadaServiceImpl implements LlegadaService {
 	}
 
 	@Override
+	public Llegada findById(Long id) {
+		return llegadaDao.findById(id);
+	}
+	
+	@Override
 	public Llegada create(Llegada llegada) {
 		return llegadaDao.create(llegada);
 	}
@@ -191,8 +245,8 @@ public class LlegadaServiceImpl implements LlegadaService {
 	}
 
 	@Override
-	public Llegada findLastByTren(Long idEstacion, Long numeroTren) {
-		return llegadaDao.findLastByTren(idEstacion, numeroTren);
+	public Llegada findUltimaLlegadaDeTrenAEstacion(Long idEstacion, Long numeroTren) {
+		return llegadaDao.findUltimaLlegadaDeTrenAEstacion(idEstacion, numeroTren);
 	}
 
 	@Override

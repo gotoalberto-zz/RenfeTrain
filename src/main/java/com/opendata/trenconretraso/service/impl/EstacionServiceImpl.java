@@ -41,7 +41,7 @@ public class EstacionServiceImpl implements EstacionService{
 	}
 
 	@Override
-	public Estacion findByCodEstacion(String codEstacion) {
+	public Estacion findByCodEstacion(Long codEstacion) {
 		return estacionDao.findByCodEstacion(codEstacion);
 	}
 
