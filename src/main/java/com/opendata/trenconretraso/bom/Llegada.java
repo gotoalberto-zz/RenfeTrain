@@ -38,6 +38,7 @@ public class Llegada{
 	@Persistent
 	private java.lang.String procedencia;
 	
+	@Persistent
 	private com.opendata.trenconretraso.bom.TipoTren tipoTren;
 	
 	/**
