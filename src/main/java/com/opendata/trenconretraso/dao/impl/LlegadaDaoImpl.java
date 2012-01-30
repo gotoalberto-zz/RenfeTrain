@@ -52,7 +52,13 @@ public class LlegadaDaoImpl extends JdoDaoSupport implements LlegadaDao{
 	@Transactional
 	public Llegada create(Llegada llegada) {
 		
-		return getPersistenceManager().makePersistent(llegada);
+		llegada = getPersistenceManager().makePersistent(llegada);
+		
+		if(llegada.getTipoTren() != null){
+			llegada.setIdTipoTren(llegada.getTipoTren().getId().getId());
+		}
+		
+		return llegada;
 		
 	}
 
