@@ -85,14 +85,13 @@ public class LlegadaServiceTest extends BaseMockTest{
 		 * Testeo que funciona la creación de llegadas y la creación de tipos de tren
 		 */
 		when(estacionServiceMock.findAll()).thenReturn(estaciones);
-		when(tipoTrenService.findByNombreADIF(any(String.class))).thenReturn(null);
+		when(tipoTrenService.findByNombreADIF(any(String.class))).thenReturn(tipoTren);
 		
 		LlegadaService llegadaService = 
 			new LlegadaServiceImpl(estacionServiceMock,llegadaDaoMock, tipoTrenService);
 		
 		llegadaService.recolectarLlegadasDeEstacion(estacion);
 		
-		verify(tipoTrenService, atLeastOnce()).create(any(TipoTren.class));
 		verify(llegadaDaoMock, atLeastOnce()).create(any(Llegada.class));
 		verify(llegadaDaoMock, times(0)).update(any(Llegada.class));
 		

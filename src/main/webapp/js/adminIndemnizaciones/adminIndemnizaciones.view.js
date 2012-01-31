@@ -6,7 +6,10 @@ Ext.onReady(function(){
 	    listeners: {
 	    	edit:	function(editor, e){
 	    		//editor.record.data;
-	    	}
+	    	},
+			canceledit : function(editor, e){
+				console.log(2);
+			}
 	    }
 	});
 	
