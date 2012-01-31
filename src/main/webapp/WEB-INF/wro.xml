@@ -6,4 +6,11 @@
 	    <js>/js/consulta/consulta.store.js</js>
 	    <js>/js/consulta/consulta.view.js</js> 
 	</group>
+	<group name="adminIndemnizaciones">
+		<js>/js/ext-all.js</js>
+		<js>/js/locale/ext-lang-es.js</js>
+	    <js>/js/adminIndemnizaciones/adminIndemnizaciones.model.js</js>
+	    <js>/js/adminIndemnizaciones/adminIndemnizaciones.store.js</js>
+	    <js>/js/aadminIndemnizaciones/adminIndemnizaciones.view.js</js> 
+	</group>
 </groups>

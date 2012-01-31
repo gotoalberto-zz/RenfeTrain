@@ -1,10 +1,10 @@
 
-Ext.define('consulta.store.llegadas',{
+Ext.define('adminIndemnizaciones.store.tipoTren',{
 	extend:'Ext.data.Store',
-	model: 'consulta.model.llegadas',
+	model: 'adminIndemnizaciones.model.tipoTren',
 	proxy: {
 		type: 'ajax',
-		url: 'llegadas.do',
+		url: '/admin/tipotren.do',
 		reader: {
 			type: 'json',
 			root: 'items',
@@ -13,13 +13,12 @@ Ext.define('consulta.store.llegadas',{
 	}
 });
 
-
-Ext.define('consulta.store.estaciones',{
+Ext.define('adminIndemnizaciones.store.indemnizacion',{
 	extend:'Ext.data.Store',
-	model: 'consulta.model.estaciones',
+	model: 'adminIndemnizaciones.model.indemnizacion',
 	proxy: {
 		type: 'ajax',
-		url: 'estaciones.do',
+		url: '/admin/indemnizaciones.do',
 		reader: {
 			type: 'json',
 			root: 'items',

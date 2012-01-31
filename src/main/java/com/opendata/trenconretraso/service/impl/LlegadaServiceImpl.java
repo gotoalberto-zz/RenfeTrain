@@ -95,10 +95,6 @@ public class LlegadaServiceImpl implements LlegadaService {
 				
 				tipoTren = tipoTrenService.create(tipoTren);
 				
-				log.error("¡He detectado un tipo de tren nuevo! Echale un ojo para ver que" +
-						"tipo de indemnización le corresponde y actualízalo! -> \n" +
-						"tipoTren.nombreADIF = " + tipoTren.getNombreADIF() +
-						"\n tipoTren.id = " + tipoTren.getId());
 			}
 			
 			llegada.setTipoTren(tipoTren);

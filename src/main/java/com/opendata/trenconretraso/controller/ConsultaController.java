@@ -5,11 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +27,7 @@ import com.opendata.trenconretraso.service.LlegadaService;
  *	Controller que devuelve información a la vista.
  */
 @Controller
-public class LlegadasController {
+public class ConsultaController {
 	
 Logger log = Logger.getLogger(this.getClass());
 	
@@ -54,36 +51,25 @@ Logger log = Logger.getLogger(this.getClass());
 		List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
 		
 		Estacion estacion = estacionService.findByCodEstacion(codEstacion);
-		List<Llegada> llegadas = llegadaService.findByEstacion(estacion.getId(),fechaConsulta);
-		
-		for(Llegada llegada : llegadas){
+		if(estacion != null){
+			List<Llegada> llegadas = llegadaService.findByEstacion(estacion.getId(),fechaConsulta);
 			
-			Map<String,Object> item = new HashMap<String, Object>();
-			
-			Calendar hLlegada = new GregorianCalendar(TimeZone.getTimeZone("Europe/Madrid"));
-			hLlegada.setTime(llegada.gethLlegada());
-			
-			Calendar hPrevista = new GregorianCalendar(TimeZone.getTimeZone("Europe/Madrid"));
-			hPrevista.setTime(llegada.gethPrevista());
-			
-			item.put("id", llegada.getId().toString());
-			item.put("hora", new SimpleDateFormat("HH:mm").format(llegada.gethLlegada()));
-			item.put("procedencia", llegada.getProcedencia());
-			item.put("tren", llegada.getNumeroTren());
-			
-			/**Si la hora de llegada prevista (que es la real a la que llega) + 15min
-			 * es superior  o = a la hora de llegada (que es a la que deber�a llegar)
-			 *
-			 */
-			hLlegada.add(Calendar.MINUTE, 15);
-			if(hLlegada.getTimeInMillis() <= hPrevista.getTimeInMillis()){
-				item.put("indemnizacion", true);
+			for(Llegada llegada : llegadas){
+				
+				Map<String,Object> item = new HashMap<String, Object>();
+				
+				if(llegada.getIndemnizacion() > 0){
+					item.put("id", llegada.getId().toString());
+					item.put("horaP", new SimpleDateFormat("HH:mm").format(llegada.gethPrevista()));
+					item.put("hora", new SimpleDateFormat("HH:mm").format(llegada.gethLlegada()));
+					item.put("procedencia", llegada.getProcedencia());
+					item.put("tren", llegada.getNumeroTren());
+					
+					item.put("indemnizacion", llegada.getIndemnizacion() + "%");
+				
+					items.add(item);
+				}
 			}
-			else{
-				item.put("indemnizacion", false);
-			}
-			
-			items.add(item);
 		}
 		
 		ModelAndView mvc = new ModelAndView("json");
@@ -113,7 +99,6 @@ Logger log = Logger.getLogger(this.getClass());
 		ModelAndView mvc = new ModelAndView("json");
 		
 		mvc.addObject("items", items);
-		mvc.addObject("success",true);
 		
 		return mvc;
 	}

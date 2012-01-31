@@ -56,5 +56,10 @@ Logger log = Logger.getLogger(this.getClass());
 	public TipoTren update(TipoTren tipoTren) {
 		return tipoTrenDao.update(tipoTren);
 	}
+
+	@Override
+	public List<TipoTren> findAll() {
+		return tipoTrenDao.findAll();
+	}
 	
 }

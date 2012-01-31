@@ -178,7 +178,7 @@
 				          <goal>run</goal>
 				        </goals>
 				        <configuration>
-		                	<targetGroups>consulta</targetGroups>
+		                	<targetGroups>consulta,adminIndemnizaciones</targetGroups>
 		                	<wroFile>${basedir}/src/main/webapp/WEB-INF/wro.xml</wroFile>
 		               		<destinationFolder>${basedir}/target/${project.artifactId}-${project.version}</destinationFolder>
 		                	<contextFolder>${basedir}/src/main/webapp/</contextFolder>

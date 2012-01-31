@@ -1,5 +1,6 @@
 package com.opendata.trenconretraso.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManagerFactory;
@@ -65,35 +66,46 @@ Logger log = Logger.getLogger(this.getClass());
 			
 			TipoTren tipoTrenFound =  getPersistenceManager().getObjectById(TipoTren.class, tipoTren.getId().getId());
 			
-			tipoTrenFound.getIndemnizaciones().clear();
-			for(Indemnizacion indemnizacion : tipoTren.getIndemnizaciones()){
-				Indemnizacion i = new Indemnizacion();
-				i.setId(indemnizacion.getId());
-				i.setMinutosRetraso(indemnizacion.getMinutosRetraso());
-				i.setPorcentaje(indemnizacion.getPorcentaje());
-				i.setTipoTren(tipoTrenFound);
-				tipoTrenFound.getIndemnizaciones().add(i);
+			List<Indemnizacion> indemnizacionesNewList = new ArrayList<Indemnizacion>();
+			for(Indemnizacion iFound : tipoTrenFound.getIndemnizaciones()){
+				for(Indemnizacion i : tipoTren.getIndemnizaciones()){
+					if(i.getId() == null){
+						Indemnizacion indemnizacion = new Indemnizacion();
+						indemnizacion.setMinutosRetraso(i.getMinutosRetraso());
+						indemnizacion.setPorcentaje(i.getPorcentaje());
+						indemnizacion.setTipoTren(tipoTrenFound);
+						indemnizacionesNewList.add(indemnizacion);
+						break;
+					}else if(i.getId().getId() == iFound.getId().getId()){
+						iFound.setMinutosRetraso(i.getMinutosRetraso());
+						iFound.setPorcentaje(i.getPorcentaje());
+						indemnizacionesNewList.add(iFound);
+						break;
+					}
+				}
 			}
-			
+			tipoTrenFound.setIndemnizaciones(indemnizacionesNewList);
 			tipoTrenFound.setNombreADIF(tipoTren.getNombreADIF());
 			tipoTrenFound.setLlegada(tipoTren.getLlegada());
 			
 			return tipoTrenFound;
 			
 		}catch(Exception e){
-			log.debug( e.getMessage());
+			log.debug("## " + e.getMessage());
 			return null;
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public List<TipoTren> findAll() {
 		Query query = getPersistenceManager().newQuery(Llegada.class);
 		return (List<TipoTren>) query.execute();
 	}
 
 	@Override
+	@Transactional
 	public TipoTren findById(Long id) {
 		try{
 			

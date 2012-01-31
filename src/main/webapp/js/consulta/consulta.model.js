@@ -14,8 +14,9 @@ Ext.define('consulta.model.llegadas',{
 	fields:[
 		{name: 'id',			type: 'int'},
 		{name: 'hora',			type:'time'},
+		{name: 'horaR',			type:'time'},
 		{name: 'procedencia',	type:'string'},
 		{name: 'tren',			type:'string'},
-		{name: 'indemnizacion',	type:'bool'}
+		{name: 'indemnizacion',	type:'string'}
 	]
 });	

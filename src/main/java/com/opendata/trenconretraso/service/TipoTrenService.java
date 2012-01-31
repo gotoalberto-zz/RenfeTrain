@@ -1,5 +1,7 @@
 package com.opendata.trenconretraso.service;
 
+import java.util.List;
+
 import com.opendata.trenconretraso.bom.TipoTren;
 
 /**
@@ -16,4 +18,6 @@ public interface TipoTrenService {
 	public TipoTren create(TipoTren tipoTren);
 
 	public TipoTren update(TipoTren tipoTren);
+	
+	public List<TipoTren> findAll();
 }

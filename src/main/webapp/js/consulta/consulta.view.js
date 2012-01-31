@@ -27,7 +27,7 @@ Ext.onReady(function(){
 					valueField: 'id',
 					displayField: 'nombre',
 					triggerAction: 'all',
-					mode: 'local',
+					mode: 'remote',
 					loadingText: 'Cargando...',
 					store: Ext.create('consulta.store.estaciones')
 				},
@@ -60,9 +60,14 @@ Ext.onReady(function(){
 			store: Ext.create('consulta.store.llegadas'),
 			columns:[
 				{
-					header: 'Hora de llegada',
+					header: 'Hora programada',
 					flex: .25,
 					dataIndex: 'hora'
+				},
+				{
+					header: 'Hora de llegada',
+					flex: .25,
+					dataIndex: 'horaP'//Hora prevista
 				},
 				{
 					header: 'Procedencia',
@@ -75,7 +80,7 @@ Ext.onReady(function(){
 					dataIndex: 'tren'
 				},
 				{
-					header: 'Derecho a Indemnizaci&oacute;n',
+					header: 'Indemnizaci&oacute;n',
 					flex: .25,
 					dataIndex:'indemnizacion',
 					renderer: function(value, cell){
